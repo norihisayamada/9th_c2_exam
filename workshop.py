@@ -47,7 +47,7 @@ print("connected")
 cmds = vehicle.commands
 print("Clear any existing commands")
 cmds.clear() 
-    
+
 
 #  Check that vehicle is armable. 
 # This ensures home_location is set (needed when saving WP file)
@@ -57,12 +57,11 @@ while not vehicle.is_armable:
 
 
 def readmission(aFileName):
-    """
-    Load a mission from a file into a list. The mission definition is in the Waypoint file
-    format (http://qgroundcontrol.org/mavlink/waypoint_protocol#waypoint_file_format).
-
-    This function is used by upload_mission().
-    """
+    
+    # Load a mission from a file into a list. The mission definition is in the Waypoint file
+    # format (http://qgroundcontrol.org/mavlink/waypoint_protocol#waypoint_file_format).
+    # This function is used by upload_mission().
+    
     print("\nReading mission from file: %s" % aFileName)
     #cmds = vehicle.commands
     missionlist=[]
@@ -90,6 +89,7 @@ def readmission(aFileName):
     return missionlist
 
 
+
 def upload_mission(aFileName):
     """
     Upload a mission from a file. 
@@ -108,12 +108,22 @@ def upload_mission(aFileName):
         cmds.add(command)
     print("Uploaded commands to vehicle\n")
     cmds.upload()
+    cmds.wait_ready()
     
 import_mission_filename = 'mission_9th.waypoints'
 export_mission_filename = 'exportedmission.txt'
 #Upload mission from file
 upload_mission(import_mission_filename)
 
+
+while not vehicle.home_location:
+    cmds = vehicle.commands
+    cmds.download()
+    cmds.wait_ready()
+
+    if not vehicle.home_location:
+        print('Waiting for home location')
+    print('\nHomeLocation: %s' % vehicle.home_location)
 
 def arm_and_takeoff(aTargetAltitude):
     
@@ -146,10 +156,9 @@ def arm_and_takeoff(aTargetAltitude):
             print("Reached target altitude")
             break
         time.sleep(1)
+  
 
-        
-
-# From Copter 3.3 you will be able to take off using a mission item. Plane must take off using a mission item (currently).
+# From Copter 3.3 you will be able to take off using a mission item.
 arm_and_takeoff(10)
 
 print("Starting mission")
@@ -163,9 +172,10 @@ while True:
     nextwaypoint=vehicle.commands.next
     print('waypoint (%s)' % (nextwaypoint, ))
     
-    if nextwaypoint==14:
+    if nextwaypoint==15:
         print("Exit mission when start heading to final waypoint (%s)" % (nextwaypoint, ))
         break
+              
     time.sleep(1)
 
 print('Return to launch')
