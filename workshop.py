@@ -41,7 +41,7 @@ from pymavlink import mavutil
 # vehicle = connect(connection_string, wait_ready=True)
 
 
-vehicle = connect('127.0.0.1:14551', wait_ready=True)
+vehicle = connect('127.0.0.1:14550', wait_ready=True)
 print("connected")
 
 cmds = vehicle.commands
@@ -110,7 +110,10 @@ def upload_mission(aFileName):
     cmds.upload()
     cmds.wait_ready()
     
-import_mission_filename = 'mission_9th.waypoints'
+# import_mission_filename = 'mission_9th.waypoints'
+import_mission_filename = 'nose_dronefield.waypoints'
+# import_mission_filename = 'nose_rover.waypoints'
+
 export_mission_filename = 'exportedmission.txt'
 #Upload mission from file
 upload_mission(import_mission_filename)
@@ -124,6 +127,7 @@ while not vehicle.home_location:
     if not vehicle.home_location:
         print('Waiting for home location')
     print('\nHomeLocation: %s' % vehicle.home_location)
+
 
 def arm_and_takeoff(aTargetAltitude):
     
@@ -172,7 +176,7 @@ while True:
     nextwaypoint=vehicle.commands.next
     print('waypoint (%s)' % (nextwaypoint, ))
     
-    if nextwaypoint==15:
+    if nextwaypoint==14:
         print("Exit mission when start heading to final waypoint (%s)" % (nextwaypoint, ))
         break
               
