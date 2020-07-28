@@ -111,8 +111,9 @@ def upload_mission(aFileName):
     cmds.wait_ready()
     
 # import_mission_filename = 'mission_9th.waypoints'
-import_mission_filename = 'nose_dronefield.waypoints'
+#import_mission_filename = 'nose_dronefield.waypoints'
 # import_mission_filename = 'nose_rover.waypoints'
+import_mission_filename = 'A-2-2_changeport.waypoints'
 
 export_mission_filename = 'exportedmission.txt'
 #Upload mission from file
@@ -163,7 +164,7 @@ def arm_and_takeoff(aTargetAltitude):
   
 
 # From Copter 3.3 you will be able to take off using a mission item.
-arm_and_takeoff(10)
+arm_and_takeoff(20)
 
 print("Starting mission")
 # Reset mission set to first (0) waypoint
@@ -176,7 +177,7 @@ while True:
     nextwaypoint=vehicle.commands.next
     print('waypoint (%s)' % (nextwaypoint, ))
     
-    if nextwaypoint==14:
+    if nextwaypoint==27:
         print("Exit mission when start heading to final waypoint (%s)" % (nextwaypoint, ))
         break
               

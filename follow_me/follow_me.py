@@ -28,22 +28,22 @@ parser.add_argument('--connect',
                    help="vehicle connection target string. If not specified, SITL automatically started and used.")
 args = parser.parse_args()
 
-# connection_string = args.connect
-# sitl = None
+connection_string = args.connect
+sitl = None
 
 
-# #Start SITL if no connection string specified
-# if not connection_string:
-#     import dronekit_sitl
-#     sitl = dronekit_sitl.start_default()
-#     connection_string = sitl.connection_string()
+#Start SITL if no connection string specified
+if not connection_string:
+    import dronekit_sitl
+    sitl = dronekit_sitl.start_default()
+    connection_string = sitl.connection_string()
 
-# # Connect to the Vehicle
-# print('Connecting to vehicle on: %s' % connection_string)
-# vehicle = connect(connection_string, wait_ready=True, timeout=300)
+# Connect to the Vehicle
+print('Connecting to vehicle on: %s' % connection_string)
+vehicle = connect(connection_string, wait_ready=True, timeout=300)
 
-vehicle = connect('127.0.0.1:14550', wait_ready=True)
-print("connected")
+# vehicle = connect('127.0.0.1:14550', wait_ready=True)
+# print("connected")
 
 def arm_and_takeoff(aTargetAltitude):
     """
@@ -118,7 +118,7 @@ print("Close vehicle object")
 vehicle.close()
 
 # Shut down simulator if it was started.
-# if sitl is not None:
-#     sitl.stop()
+if sitl is not None:
+    sitl.stop()
 
 print("Completed")
